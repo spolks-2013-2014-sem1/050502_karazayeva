@@ -1,5 +1,5 @@
 #Client
-require'./lib/library'
+require_relative'../lib/library'
 
 host = ARGV[0]||"127.0.0.1"
 port = ARGV[1]||"1234"

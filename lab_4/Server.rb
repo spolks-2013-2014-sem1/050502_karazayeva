@@ -1,5 +1,5 @@
 #Server 
-require'./lib/library'
+require_relative'../lib/library'
 require'timeout'
 
 host = ARGV[0]||"127.0.0.1"

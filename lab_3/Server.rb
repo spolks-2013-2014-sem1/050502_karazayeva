@@ -1,5 +1,5 @@
 #Server 
-require'./lib/library'
+require_relative'../lib/library'
 require'timeout'
 
 host = ARGV[0]||"127.0.0.1"
@@ -12,8 +12,8 @@ begin
     a_sock, a_sock_info = p_sock.accept
   end
   puts ("Please, wait...")
-  filename = a_sock.gets.chomp
-  file = File.open("./#{filename}(copy)", 'w') 
+  filename = a_sock.gets
+  file = File.open("#{filename}(copy)", 'w') 
   while  data = a_sock.read(CONST::SIZE)
     file.write(data)
   end

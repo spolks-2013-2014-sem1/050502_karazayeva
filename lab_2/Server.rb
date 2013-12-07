@@ -1,5 +1,5 @@
 #Server
-require './lib/library'
+require_relative '../lib/library'
 require 'timeout'
 
 begin
@@ -12,8 +12,8 @@ begin
       timeout(60) do
         a_sock, a_sock_info = p_sock.accept
       end
-      puts "Print 'dump' to close client" 
-      puts "Print 'exit' or push Ctrl+C to close server"
+      puts "->Print 'dump' to close client" 
+      puts "->Print 'exit' or push Ctrl+C to close server"
       while  data = a_sock.gets.chomp
         break a_sock.close  if data == "dump"
         break p_sock.close  if data == "exit"

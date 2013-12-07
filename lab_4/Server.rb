@@ -13,8 +13,7 @@ begin
   end
   
   puts ("Please, wait...")
-  filename = a_sock.recv(CONST::FILE_NAME) 
-  file = File.open("./#{filename}(copy)", 'w') 
+  file = File.open("./(copy)", 'w') 
   
   ok_to_read_oob = false
   received_data = 0
@@ -24,7 +23,7 @@ begin
     has_regular, _, has_urgent = IO.select([a_sock], nil, except_arr)
    
     if sock = has_urgent.pop
-      data = sock.recv(1, Socket::MSG_OOB)
+      sock.recv(1, Socket::MSG_OOB)
       puts "received:#{received_data} bytes"
       ok_to_read_oob = false
     else

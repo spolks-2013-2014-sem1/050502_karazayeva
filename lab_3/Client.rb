@@ -1,13 +1,14 @@
 #Client
-require'./library'
+require'./lib/library'
 
-SIZE = 64
+host = ARGV[0]||"127.0.0.1"
+port = ARGV[1]||"1234"
+filename = ARGV[2]||'cat.jpg'
 
-filename = ARGV[0]||"./lab_3/cat.jpg"
-puts "Source file: "+filename
-client = Library.createClient('127.0.0.1', 1234, Socket::SOCK_STREAM)
+puts "Source file: " + filename
+client = TCP.createClient(host, port)
 File.open (filename) do |file|
-  while chunk = file.read(SIZE)
+  while chunk = file.read(CONST::SIZE)
     client.write(chunk)
   end
   client.close

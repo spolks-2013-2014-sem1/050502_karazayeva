@@ -1,24 +1,56 @@
 #Library
 require 'socket'
 
-module Library
-  
-  def self.createServer (host, port, type)
-    a_sock = Socket.new( Socket::AF_INET,  type, 0)       #active socket
-    p_sock = Socket.new( Socket::PF_INET,  type, 0)       #passive socket
-    p_sock.setsockopt(:SOCKET, :REUSEADDR, true)          #no more Errno::EADDRINUSE
-    p_sockaddr = Socket.pack_sockaddr_in(port, host) 
-    p_sock.bind (p_sockaddr)
-    p_sock.listen(2)
-    puts'Ctrl+C for exit'
-    [p_sock, a_sock]
+module CONST
+  SIZE = 1024
+  FILE_NAME = 100
+  FILE_SIZE = 100
+end
+
+module TCP
+  def self.createServer (host, port) 
+    server = createSocket 
+    server = Socket.new( Socket::PF_INET, Socket::SOCK_STREAM, 0)       
+    server.setsockopt(:SOCKET, :REUSEADDR, true)             
+    sock_addr = Socket.pack_sockaddr_in(port, host) 
+    server.bind (sock_addr)
+    server.listen(5)
+    server
   end
 
-  def self.createClient (host, port, type)
-    client = Socket.new( Socket::AF_INET, type, 0)
-    sock_addr = Socket.pack_sockaddr_in(1234, '127.0.0.1')
+  def self.createClient (host, port)
+    client = createSocket        
+    sock_addr = Socket.pack_sockaddr_in(port, host)
     client.connect(sock_addr)
     client
+  end
+  
+  def self.createSocket
+    socket = Socket.new( Socket::AF_INET, Socket::SOCK_STREAM, 0)
+    socket.setsockopt(:SOCKET, :REUSEADDR, true) 
+    socket
+  end
+end
+
+module UDP
+  def self.createServer (host, port)
+    server = self.createSocket
+    sock_addr = Socket.pack_sockaddr_in(port, host) 
+    server.bind (sock_addr)
+    server
+  end
+
+  def self.createClient (host, port)
+    client = self.createSocket    
+    sock_addr = Socket.pack_sockaddr_in(port, host)
+    client.connect(sock_addr)
+    client
+  end
+  
+  def self.createSocket
+    socket = Socket.new( Socket::AF_INET, Socket::SOCK_DGRAM, 0)
+    socket.setsockopt(:SOCKET, :REUSEADDR, true) 
+    socket
   end
 end
 

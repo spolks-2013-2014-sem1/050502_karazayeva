@@ -23,15 +23,15 @@ begin
 
        file =  File.open("#{client}", 'w')
        while data = clients[Thread.current].recv(CONST::SIZE)
-         if data.size < CONST::SIZE
+         receive_size += data.size
+         puts " :#{Thread.current} #{receive_size}"
+         file.write(data)
+	 if data.size < CONST::SIZE
            puts "#{clients[Thread.current]} done"
            file.close
            clients.delete(Thread.current)
            break
          end
-         receive_size += data.size
-         puts " :#{Thread.current} #{receive_size}"
-         file.write(data)
        end
      end
    end
